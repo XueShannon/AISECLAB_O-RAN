@@ -1,4 +1,4 @@
-# AISECLAB O-RAN Project
+# AISECLAB Open Radio Access Network (O-RAN) Project
 ## Goal 
 <details><summary>Midterm (End of March, 2024)</summary>
 <p>
