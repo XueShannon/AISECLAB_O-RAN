@@ -11,3 +11,10 @@
 2. Join our POWDER Project 'CPE900'
    - ~~Here's the link to guide you to join an existing project, and our project ID is 'CPE900'. Please follow section 5.1.1 to join. https://docs.powderwireless.net/users.html~~
    - ~~Some guidance and examples talk about software/hardware suggestions, you can go through them first and have a sense of what language, platform we need to use to complete the project.~~
+
+
+## In-Work-SP
+1. Intitated a experiment with NFS-Dataset Profile
+   - Establishing Contacts in nodes.
+   - Creating a Temp Dataset to test on.
+   - Working on Scripts to create and send Data/Model between Central Node(Server) and others.
