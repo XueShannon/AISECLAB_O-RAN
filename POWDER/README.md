@@ -1,4 +1,4 @@
-# O-RAN Experiment on POWDWE
+# O-RAN Experiment on POWDER
 Description: All resources, setups, thoughts, and problems should be listed here
 
 ## Resources
