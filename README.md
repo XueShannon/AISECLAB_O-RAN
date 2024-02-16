@@ -20,7 +20,7 @@ Reference: [Understanding O-RAN: Architecture, Interfaces, Algorithms, Security,
 - [Colosseum](https://www.northeastern.edu/colosseum/): container ready to use
 - [AERPAW](https://aerpaw.org)
 - [COSMOS](https://www.cosmos-lab.org)
-- [POWDER](https://powderwireless.net): container ready to use
+- [POWDER](https://powderwireless.net): container ready to use --- [[use for now](https://github.com/XueShannon/AISECLAB_O-RAN/tree/main/POWDER)]
 - [5GENESIS](https://5genesis.eu): building
 ### Framework
 - [OpenRAN Gym](https://openrangym.com/other/publications)
