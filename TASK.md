@@ -13,8 +13,14 @@
    - ~~Some guidance and examples talk about software/hardware suggestions, you can go through them first and have a sense of what language, platform we need to use to complete the project.~~
 
 
-## Week 2 [02/10/2024-02/16/2024] In-Work-SP
-1. Intitated an experiment with NFS-Dataset Profile
+## Week 2 [02/10/2024-02/16/2024]
+1. Intitated an experiment with NFS-Dataset Profile **[Did not build the enviroment successfully]**
    - Establishing Contacts in nodes.
    - Creating a Temp Dataset to test on.
    - Working on Scripts to create and send Data/Model between Central Node(Server) and others.
+
+## Week 3 [02/17/2024-02/23/2024]
+1. Parkar follows Powder's instruction to establish the connection
+   - Powder Website provides steps to use O-RAN profile, please follow it to complete.
+   - If need to submit any request for the hardware access, please contact Xiaochan first and then submit the application.
+   - Upload and record each step that you build [here](https://github.com/XueShannon/AISECLAB_O-RAN/tree/main/POWDER)
