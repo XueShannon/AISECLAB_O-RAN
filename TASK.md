@@ -21,6 +21,7 @@
 
 ## Week 3 [02/17/2024-02/23/2024]
 1. Parkar follows Powder's instruction to establish the connection
-   - Powder Website provides steps to use O-RAN profile, please follow it to complete.
+   - Powder Website provides steps to use O-RAN profile, please follow it to complete. [Demos Playlist](https://www.youtube.com/watch?v=VMg_F_VJ4G0&list=PLtBMr52yxl464brQQyz8J5hK4SYQd7eGH)
+      - Experiment Resources appended to [POWDER\README.md](POWDER\README.md)
    - If need to submit any request for the hardware access, please contact Xiaochan first and then submit the application.
    - Upload and record each step that you build [here](https://github.com/XueShannon/AISECLAB_O-RAN/tree/main/POWDER)
