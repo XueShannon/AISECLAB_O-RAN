@@ -1,38 +1,44 @@
 # Review Papers
 ## [Madhusanka Liyanage](https://people.ucd.ie/madhusanka)
 1. [Open RAN security Challenges and opportunities](https://github.com/XueShannon/AISECLAB_O-RAN/blob/main/SOTAs/Open%20RAN%20security%20Challenges%20and%20opportunities.pdf)
-   - **Authours**: Madhusanka Liyanage, An Braeken, Shahriar Shahabuddin, Pasika Ranaweera
+   - **Authors**: Madhusanka Liyanage, An Braeken, Shahriar Shahabuddin, Pasika Ranaweera
    - **Journal**: Journal of Network and Computer Applications
    - **Date**: May 2023
 2. [Open RAN and RAN‐Core Convergence](https://ieeexplore.ieee.org/document/10201339)
-   - **Authours**: Pawani Porambage, Madhusanka Liyanage
+   - **Authors**: Pawani Porambage, Madhusanka Liyanage
    - **Book**: Security and Privacy Vision in 6G: A Comprehensive Guide, Chapter 5
    - **Date**: Aug 2023
 3. [Peer-to-Peer **Federated Learning** based Anomaly Detection for Open Radio Access Networks](https://github.com/XueShannon/AISECLAB_O-RAN/blob/main/SOTAs/Peer-to-Peer%20Federated%20Learning%20based%20Anomaly%20Detection%20for%20Open%20Radio%20Access%20Networks.pdf)
-   - **Authours**: Dinaj Attanayaka, Pawani Porambage, Madhusanka Liyanage, Mika Ylianttila
+   - **Authors**: Dinaj Attanayaka, Pawani Porambage, Madhusanka Liyanage, Mika Ylianttila
    - **Conference**: ICC 2023
    - **Date**: June 2023
      
 ## [Bouziane Brik](https://scholar.google.fr/citations?user=c3EPy9sAAAAJ&hl=fr)
 1. [**Federated Deep Reinforcement Learning** for Efficient Jamming Attack Mitigation in O-RAN](https://github.com/XueShannon/AISECLAB_O-RAN/blob/main/SOTAs/Federated%20Deep%20Reinforcement%20Learning%20for%20Efficient%20Jamming%20Attack%20Mitigation%20in%20O-RAN.pdf)
-   - **Authours**: Zakaria Abou El Houda, Hajar Moudoud, Bouziane Brik
+   - **Authors**: Zakaria Abou El Houda, Hajar Moudoud, Bouziane Brik
    - **Journal**: IEEE TVT
    - **Date**: January 2024
 2. [A Survey on Explainable **AI** for 6G O-RAN: Architecture, Use Cases, Challenges and Research Directions](https://github.com/XueShannon/AISECLAB_O-RAN/blob/main/SOTAs/A%20Survey%20on%20Explainable%20AI%20for%206G%20O-RAN%20-%20Architecture%2C%20Use%20Cases%2C%20Challenges%20and%20Research%20Directions.pdf)
-   - **Authours**: Bouziane Brik, Hatim Chergui, Lanfranco Zanzi, Francesco Devoti, Adlen Ksentini, Muhammad Shuaib Siddiqui, Xavier Costa-Pérez, Christos Verikoukis
+   - **Authors**: Bouziane Brik, Hatim Chergui, Lanfranco Zanzi, Francesco Devoti, Adlen Ksentini, Muhammad Shuaib Siddiqui, Xavier Costa-Pérez, Christos Verikoukis
    - **Publication**: arXiv
    - **Date**: July 2023
 
+## Bomin Mao, Jiajia Liu
+1. [Security and Privacy on 6G Network Edge: A Survey](https://ieeexplore.ieee.org/abstract/document/10044183?casa_token=ZSc8bHGqB_wAAAAA:GmajyNgtTiTzQT_zhJtsHlUtdBdimkaBf7rOVl4sjVIwWc3egJC_P_GSY4qSv1e7wdLAPwJnF0M)
+   - **Authors**: Bomin Mao, Jiajia Liu, Yingying Wu, Nei Kato
+   - **Journal**:  IEEE Communications Surveys & Tutorials
+   - **Date**: February 2023
+     
 ## [Wesley Garey](https://www.nist.gov/people/wesley-garey)
 1. [O-RAN with **Machine Learning** in ns-3](https://github.com/XueShannon/AISECLAB_O-RAN/blob/main/SOTAs/O-RAN%20with%20Machine%20Learning%20in%20ns-3.pdf)
-   - **Authours**: Wesley Garey, Tanguy Ropitault, Richard Rouil, Evan Black, Weichao Gao
+   - **Authors**: Wesley Garey, Tanguy Ropitault, Richard Rouil, Evan Black, Weichao Gao
    - **Conference**: WNS3'23: Proceedings of the 2023 Workshop on ns-3
    - **Date**: June 2023
    - **Slides**: [here](https://github.com/XueShannon/AISECLAB_O-RAN/blob/main/SOTAs/O-RAN%20with%20Machine%20Learning%20in%20ns-3%20slides.pdf)
 
 ## [Pablo Soldati](https://scholar.google.com/citations?user=IsTOr8kAAAAJ&hl=en&oi=sra)
 1. [Design Principles for Model Generalization and Scalable AI Integration in Radio Access Networks](https://github.com/XueShannon/AISECLAB_O-RAN/blob/main/SOTAs/Design%20Principles%20for%20Model%20Generalization%20and%20Scalable%20AI%20Integration%20in%20Radio%20Access%20Networks.pdf)
-   - **Authours**: Pablo Soldati, Euhanna Ghadimi, Burak Demirel, Yu Wang, Raimundas Gaigalas, Mathias Sintorn
+   - **Authors**: Pablo Soldati, Euhanna Ghadimi, Burak Demirel, Yu Wang, Raimundas Gaigalas, Mathias Sintorn
    - **Publication**: arXiv
    - **Date**: Jan 2024
      
