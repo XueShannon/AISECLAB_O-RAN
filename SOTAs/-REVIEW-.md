@@ -24,7 +24,7 @@
    - **Date**: July 2023
 
 ## Bomin Mao, Jiajia Liu
-1. [Security and Privacy on 6G Network Edge: A Survey](https://ieeexplore.ieee.org/abstract/document/10044183?casa_token=ZSc8bHGqB_wAAAAA:GmajyNgtTiTzQT_zhJtsHlUtdBdimkaBf7rOVl4sjVIwWc3egJC_P_GSY4qSv1e7wdLAPwJnF0M)
+1. [Security and Privacy on 6G Network Edge: A Survey]([https://ieeexplore.ieee.org/abstract/document/10044183?casa_token=ZSc8bHGqB_wAAAAA:GmajyNgtTiTzQT_zhJtsHlUtdBdimkaBf7rOVl4sjVIwWc3egJC_P_GSY4qSv1e7wdLAPwJnF0M](https://github.com/XueShannon/AISECLAB_O-RAN/blob/main/SOTAs/Security%20and%20Privacy%20on%206G%20Network%20Edge%20-%20A%20Survey.pdf)
    - **Authors**: Bomin Mao, Jiajia Liu, Yingying Wu, Nei Kato
    - **Journal**:  IEEE Communications Surveys & Tutorials
    - **Date**: February 2023
