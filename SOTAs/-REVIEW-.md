@@ -35,10 +35,22 @@
    - **Authours**: Pablo Soldati, Euhanna Ghadimi, Burak Demirel, Yu Wang, Raimundas Gaigalas, Mathias Sintorn
    - **Publication**: arXiv
    - **Date**: Jan 2024
+     
+## []()
+1. [A Federated Continual Learning Framework for Sustainable Network Anomaly Detection in O-RAN](https://github.com/XueShannon/AISECLAB_O-RAN/blob/main/SOTAs/A%20Federated%20Continual%20Learning%20Framework%20for%20Sustainable%20Network%20Anomaly%20Detection%20in%20O-RAN.pdf)
+   - **Authors**: Chafika Benza¨ıd, Fahim Muhtasim Hossain, Tarik Taleb, Pedro Merino Gomez, Michael Dieudonne
+   - **Publication**: mosaic-lab
+   - **Date**: 2024
 
+## Lukasz Kulacz, Adrian Kliks, Marcin Dryjanski
+1. [Machine Learning-based xApp for Dynamic Resource Allocation in O-RAN Networks](https://github.com/XueShannon/AISECLAB_O-RAN/blob/main/SOTAs/Machine%20Learning-based%20xApp%20for%20Dynamic%20Resource%20Allocation%20in%20O-RAN%20Networks.pdf)
+   - **Authors**: Mohammed M. H. Qazzaz, Lukasz Kulacz, Adrian Kliks, Syed A. Zaidi, Marcin Dryjanski, Des McLernon
+   - **Publication**: arXiv
+   - **Date**: Jan 2024
+     
 ## []()
 1. [Federated Learning Integration in O- RAN: A Concise Review](https://github.com/XueShannon/AISECLAB_O-RAN/blob/main/SOTAs/Federated%20Learning%20Integration%20in%20O-%20RAN%20-%20A%20Concise%20Review.pdf)
-   - **Authours**: Noureen Islam, Fahad Monir, M M Mahbubul Syeed, Mahady Hasan, Mohammad Faisal Uddin
+   - **Authors**: Noureen Islam, Fahad Monir, M M Mahbubul Syeed, Mahady Hasan, Mohammad Faisal Uddin
    - **Conference**: 2023 33rd International Telecommunication Networks and Applications Conference
    - **Date**: December 2023
    
@@ -48,13 +60,13 @@
    
 ## [Jiann-Liang Chen](https://dblp.org/pid/01/3133.html)
 1. [Security Threat Analysis and Treatment Strategy for ORAN](https://github.com/XueShannon/AISECLAB_O-RAN/blob/main/SOTAs/Security%20Threat%20Analysis%20and%20Treatment%20Strategy%20for%20ORAN.pdf)
-   - **Authours**: Chih-Ting Shen, Yu-Yi Xiao, Yi-Wei Ma, Jiann-Liang Chen, Cheng-Mou Chiang, Shiang-Jiun Chen, Yu-Chuan Pan
+   - **Authors**: Chih-Ting Shen, Yu-Yi Xiao, Yi-Wei Ma, Jiann-Liang Chen, Cheng-Mou Chiang, Shiang-Jiun Chen, Yu-Chuan Pan
    - **Conference**: ICACT 2022
    - **Date**: March 2022
      
 ## [--]()
 1. [Closed-Loop Security Management for Developing O-RAN Infrastructure and B5G RIC Applications](https://ieeexplore.ieee.org/abstract/document/10338980)
-   - **Authours**: Yi-Chih Tung, En-Cheng Liou, Chung-Hsiang Cheng, Tzu-Hang Lin, Shu-Min Chuang
+   - **Authors**: Yi-Chih Tung, En-Cheng Liou, Chung-Hsiang Cheng, Tzu-Hang Lin, Shu-Min Chuang
    - **Conference**: WPMC 2023
    - **Date**: December 2023
      
