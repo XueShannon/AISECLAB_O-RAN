@@ -33,7 +33,7 @@ Profile: [srslte-shvlan-oran](https://www.powderwireless.net/show-profile.php?pr
 ## Setup
 
 ## Problems
-- Xiaochan submiited the OTA permission for CPE900 Project, waiting for response.
+- Xiaochan submited the OTA permission for CPE900 Project, waiting for response.
 - DL/UL Frequency Parameters value.
 - DL RBG Mask for eNB.
 - UL PRB Mask
