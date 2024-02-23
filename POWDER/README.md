@@ -39,6 +39,6 @@ Profile: [srslte-shvlan-oran](https://www.powderwireless.net/show-profile.php?pr
 
 **Request to POWDER Team for Radio Devices Setup**
 
-<img src="POWDER\Profile-Screens\Screenshot 2024-02-21 231637.png" width="350" title="Warning">
+<img src=".\Profile-Screens\Screenshot 2024-02-21 231637.png" width="350" title="Warning">
 
 
