@@ -33,4 +33,5 @@
    1) where and how to retrieve data,
    2) train the model,
    3) store and deploy the trained model.
-4. Subscription ---
+4. Publication/subscription
+5. Machine learning workflow
