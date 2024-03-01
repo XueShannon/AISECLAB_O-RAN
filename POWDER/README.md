@@ -28,8 +28,9 @@ Profile: [srslte-shvlan-oran](https://www.powderwireless.net/show-profile.php?pr
 - 2x Indoor OTA Nuc with B210 (Role UE)
 <br> Acts as UE connecting to eNB
 
-
-            
+### xApp Development
+[**References for xApp**](https://wiki.o-ran-sc.org/display/ORANSDK/O-RAN+Application+SDK)<br>
+[**AI/ML Workflow Example**](https://wiki.o-ran-sc.org/pages/viewpage.action?pageId=57377181)
 
 
 ## Setup
@@ -65,13 +66,10 @@ Start a new experiment with above mentioned profiles and following parameters
 
 ## Problems
 - Xiaochan submited the OTA permission for CPE900 Project, waiting for response.
-- ~~DL/UL Frequency Parameters value.~~ Setting to 10MHz of C-Band Range:  3420 ==> 3445
+- ~~DL/UL Frequency Parameters value.~~ Setting to 25MHz in C-Band Range
 - ~~DL RBG Mask.~~
 - ~~UL PRB Mask.~~ Setting to empty for Auto-Config
-Awaiting Radio Resources Reservation.
-
-**Request to POWDER Team for Radio Devices Setup**
-
-<img src=".\Profile-Screens\Screenshot 2024-02-21 231637.png" width="600" title="Warning">
+- ~~Awaiting Radio Resources Reservation.~~ Resources Allocated 3/1 - 3/6
 
 
+~~**Request to POWDER Team for Radio Devices Setup**~~
