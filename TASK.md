@@ -26,10 +26,11 @@
    - If need to submit any request for the hardware access, please contact Xiaochan first and then submit the application.
    - Upload and record each step that you build [here](https://github.com/XueShannon/AISECLAB_O-RAN/tree/main/POWDER)
   
-## Week 4 [03/01/2024-03/08/2024]
+## Week 5 [03/01/2024-03/08/2024]
 1. Collect CSI;
 2. Store CSI;
 3. Write xApp for machine learning, including some subtasks:
    1) where and how to retrieve data,
    2) train the model,
    3) store and deploy the trained model.
+4. Subscription ---
