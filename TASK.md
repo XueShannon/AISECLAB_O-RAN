@@ -35,3 +35,11 @@
    3) store and deploy the trained model.
 4. Publication/subscription
 5. Machine learning workflow
+
+## Week 7 [03/15/2024-03/22/2024]
+1. Update results for collecting CSI data from lab USRP or Powder USRP
+2. Solve storing collected data problem
+3. 3. Write xApp for machine learning, including some subtasks:
+   1) where and how to retrieve data,
+   2) train the model,
+   3) store and deploy the trained model.
