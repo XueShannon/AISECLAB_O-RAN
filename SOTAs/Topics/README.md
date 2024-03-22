@@ -1,2 +1,2 @@
 # Use case
-## V2X（Vehicle-to-everything）
+## Dynamic Handover Management for V2X（Vehicle-to-everything）
