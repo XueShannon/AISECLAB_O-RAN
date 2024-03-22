@@ -1,0 +1,42 @@
+{
+    "json_url": "fl-ric-app",
+    "xapp_name": "fl-ric-app",
+    "version": "1.0.0",
+    "containers": [
+        {
+            "name": "fl-ric-app",
+            "image": {
+                "registry": "xApp-registry.local:5008",
+                "name": "fl-ric-app",
+                "tag": "1.0.0"
+            }
+        }
+    ],
+    "messaging": {
+        "ports": [
+            {
+                "name": "rmr-data",
+                "container": "fl-ric-app",
+                "port": 4560,
+                "rxMessages": [ "RIC_SUB_RESP", "RIC_SUB_FAILURE", "RIC_INDICATION", "RIC_SUB_DEL_RESP", "RIC_SUB_DEL_FAILURE" ],
+                "txMessages": [ "RIC_SUB_REQ", "RIC_SUB_DEL_REQ" ],
+                "policies": [1],
+                "description": "rmr receive data port for fl-ric-app"
+            },
+            {
+                "name": "rmr-route",
+                "container": "fl-ric-app",
+                "port": 4561,
+                "description": "rmr route port for fl-ric-app"
+            }
+        ]
+    },
+    "rmr": {
+        "protPort": "tcp:4560",
+        "maxSize": 2072,
+        "numWorkers": 1,
+        "txMessages": [ "RIC_SUB_REQ", "RIC_SUB_DEL_REQ" ],
+        "rxMessages": [ "RIC_SUB_RESP", "RIC_SUB_FAILURE", "RIC_INDICATION", "RIC_SUB_DEL_RESP", "RIC_SUB_DEL_FAILURE" ],
+	"policies": [1]
+    }
+}

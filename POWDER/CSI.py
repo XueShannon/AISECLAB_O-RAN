@@ -51,8 +51,8 @@ def main():
         while True:
             # mag_phase = tb.csi_extractor
             # Process the magnitude and phase data here as needed
-            magnitude = tb.output_blocks
-            phase = tb.output_blocks
+            magnitude = tb.output_blocks.level()[0]
+            phase = tb.output_blocks.level()[1]
 
             # Example: Print magnitude and phase
             print("Magnitude:", magnitude)
