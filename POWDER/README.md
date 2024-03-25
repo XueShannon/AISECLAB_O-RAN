@@ -64,12 +64,22 @@ Start a new experiment with above mentioned profiles and following parameters
 
 
 
+## CSI outputs
+**B210**
+<br> <img src=".\Profile-Screens\B210-NUC-CSI.png"><br>
+
+**X-310**
+`<br> <img src=".\Profile-Screens\X310-CSI.png"><br>
+
+
 ## Problems
 - Xiaochan submited the OTA permission for CPE900 Project, waiting for response.
 - ~~DL/UL Frequency Parameters value.~~ Setting to 25MHz in C-Band Range
 - ~~DL RBG Mask.~~
 - ~~UL PRB Mask.~~ Setting to empty for Auto-Config
 - ~~Awaiting Radio Resources Reservation.~~ Resources Allocated 3/1 - 3/6
+
+
 
 
 ~~**Request to POWDER Team for Radio Devices Setup**~~

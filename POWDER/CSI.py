@@ -12,11 +12,11 @@ class CSI_Magnitude_Phase(gr.top_block):
         self.samp_rate = 180e3
         self.center_freq = 3400e6
         self.antenna = "TX/RX"
-        self.subdev_spec = 'subdev=A:A'
+        self.subdev_spec = 'A:A'
 
         # Set up USRP source
         self.usrp_source = uhd.usrp_source(
-            device_addr='addr=',
+            device_addr='',
             stream_args=uhd.stream_args(
                 cpu_format="fc32",
                 otw_format="sc16",
@@ -32,13 +32,14 @@ class CSI_Magnitude_Phase(gr.top_block):
         self.csi_extractor = blocks.complex_to_magphase()
         
         #Probe signal Blocks for getting the value
-        self.output_blocks = blocks.probe_signal_f()
+        self.magnitude_out = blocks.probe_signal_f()
+        self.phase_out = blocks.probe_signal_f()
 
 
         # Connect blocks
         self.connect(self.usrp_source, self.csi_extractor)
-        self.connect((self.csi_extractor,0), (self.output_blocks,0))
-        self.connect((self.csi_extractor,1), (self.output_blocks,1))
+        self.connect((self.csi_extractor,0), self.magnitude_out)
+        self.connect((self.csi_extractor,1), self.phase_out)
 
 def main():
     tb = CSI_Magnitude_Phase()
@@ -51,8 +52,8 @@ def main():
         while True:
             # mag_phase = tb.csi_extractor
             # Process the magnitude and phase data here as needed
-            magnitude = tb.output_blocks.level()[0]
-            phase = tb.output_blocks.level()[1]
+            magnitude = tb.magnitude_out.level()
+            phase = tb.phase_out.level()
 
             # Example: Print magnitude and phase
             print("Magnitude:", magnitude)
