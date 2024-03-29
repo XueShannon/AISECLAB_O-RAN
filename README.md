@@ -12,6 +12,9 @@
   
 ## O-RAN Architecture
 Reference: [Understanding O-RAN: Architecture, Interfaces, Algorithms, Security, and Research Challenges](https://arxiv.org/pdf/2202.01032.pdf)
+
+<img src="https://github.com/XueShannon/AISECLAB_O-RAN/blob/main/Architecture/O-RAN.jpg" height="400" width="550" >
+
 <details>
 <summary>Terms</summary>
   
