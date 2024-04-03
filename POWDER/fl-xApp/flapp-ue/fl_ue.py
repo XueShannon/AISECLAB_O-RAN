@@ -25,6 +25,8 @@ def post_init(self):
     self.logger.info(self.sdl_find_and_get(my_ns, "RE"))
     self.sdl_delete(my_ns, "REQ")
     self.logger.info(self.sdl_get(my_ns, "REQ"))
+    
+    '''Below Snippet is borrowed from docs/examples of ricxapp'''
     # rmr receive
     for (summary, sbuf) in self.rmr_get_messages():
         # summary is a dict that contains bytes so we can't use json.dumps on it
@@ -48,11 +50,11 @@ def get_data(self,summary,sbuf):
     global X,y,epochs
     self.logger.info(f'Received: {summary}')
     jpay = json.loads(summary[rmr.RMR_MS_PAYLOAD])
-    X = jpay['data']['X']
-    y = jpay['data']['y']
+    X = np.array(jpay['data']['X'])
+    y = np.array(jpay['data']['y'])
     epochs = jpay['data']['epochs']
     
-    self.rmr_send(json.dumps({'ACK':'Data Received'}).encode(),1002)
+    self.rmr_rts(sbuf,json.dumps({'ACK':'Data Received'}).encode(),1002)
     self.rmr_free(sbuf)
 
 
@@ -61,15 +63,13 @@ def train(self,summary,sbuf):
     '''training func '''
     global X,y,weights,bias,epochs
     _ytrain = []
-    for (summary,sbuf) in self.rmr_get_messages():
-        self.logger.info(f'Received: {summary}') 
-        print(f'Received: {summary}')
-        jpay = json.loads(summary[rmr.RMR_MS_PAYLOAD])
-        epochs = jpay['epochs']
-        if ('weights' in jpay) and ('bias' in jpay):
-            weights = jpay['weights']
-            bias = jpay['bias']
-        self.rmr_free(sbuf)
+    self.logger.info(f'Received: {summary}') 
+    print(f'Received: {summary}')
+    jpay = json.loads(summary[rmr.RMR_MS_PAYLOAD])
+    epochs = jpay['epochs']
+    if ('weights' in jpay) and ('bias' in jpay):
+        weights = jpay['weights']
+        bias = jpay['bias']
     epochs -=1
     if epochs >0:
         for i in range(len(X)):
@@ -82,7 +82,8 @@ def train(self,summary,sbuf):
             weights = weights - lr*dw1
             _ytrain.append(_y)
     mse = np.mean((np.array(y)-np.array(_ytrain))**2)
-    self.rmr_send(json.dumps({'weights':weights,'bias':bias,'mse':mse,'epochs':epochs}).encode(),1001)
+    newp= json.dumps({'weights':weights.tolist(),'bias':bias.tolist(),'mse':mse.tolist(),'epochs':epochs}).encode()
+    self.rmr_rts(sbuf,newp,1001)
     self.rmr_free(sbuf)
 
 # 2002
@@ -96,5 +97,5 @@ def validation_metric(self,summary,sbuf):
 xapp = RMRXapp(default_handler=default_handler, post_init=post_init,use_fake_sdl=True,rmr_port=4561)
 xapp.register_callback(get_data,2000)
 xapp.register_callback(train,2001)
-xapp.register_callback(model_update,2002)
+# xapp.register_callback(model_update,2002)
 xapp.run()

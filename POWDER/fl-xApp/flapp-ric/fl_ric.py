@@ -10,7 +10,7 @@ import os
 
 WEIGHTS = None
 BIAS = None
-EPOCHS = 100
+EPOCHS = 10
 my_ns = 'fl_ric'
 
 def post_init(self):
@@ -47,11 +47,11 @@ def data_send(self, summary, sbuf):
     if (WEIGHTS is not None) and (BIAS is not None):
         data = {'data': {'X': X, 'y': y, 'epochs': EPOCHS,
                         'weights': WEIGHTS, 'bias': BIAS}}
-        self.rmr_send(json.dumps(data).encode(),2000)
+        self.rmr_rts(sbuf,json.dumps(data).encode(),2000)
     else:
         print('Sending Without Weights:\nNone Found')
         data = {'data': {'X': X, 'y': y, 'epochs': EPOCHS}}
-        self.rmr_send(json.dumps(data).encode(), 2000)
+        self.rmr_rts(sbuf,json.dumps(data).encode(), 2000)
     self.logger.info(f'Sent data: {data}')
     print(f'Sent Payload: {data}')
         # self.rmr_free(sbuf)
@@ -63,37 +63,48 @@ def weight_avg(self, summary, sbuf):
     allweights = []
     allbias = []
     mse = []
-    for (summary, sbuf) in self.rmr_get_messages():
-        jpay = json.loads(summary[rmr.RMR_MS_PAYLOAD])
-        allweights.append(jpay['weights'])
-        allbias.append(jpay['bias'])
-        EPOCHS = jpay['epochs']
-        mse.append(jpay['mse'])
-        self.rmr_free(sbuf)
-    WEIGHTS = np.array(allweights).mean(axis=0)
-    BIAS = np.array(allbias).mean(axis=0)
+    
+    
+    jpay = json.loads(summary[rmr.RMR_MS_PAYLOAD])
+    allweights.append(jpay['weights'])
+    allbias.append(jpay['bias'])
+    EPOCHS = jpay['epochs']
+    mse.append(jpay['mse'])
+    self.rmr_free(sbuf)
+    WEIGHTS = np.array(allweights).mean(axis=0).tolist()
+    BIAS = np.array(allbias).mean(axis=0).tolist()
     if EPOCHS > 0:
-        self.rmr_send(json.dumps({'weights':WEIGHTS,'bias':BIAS}).encode(),2001)
+        
+        self.rmr_rts(sbuf,json.dumps({'weights':WEIGHTS,'bias':BIAS}).encode(),2001)
+        self.rmr_free(sbuf)
     else:
         self.logger.info(f'Training Complete\nWeights: {WEIGHTS}\nBias: {BIAS}')
         print(f'Training Complete\nWeights: {WEIGHTS}\nBias: {BIAS}')
+        self.rmr_free(sbuf)
+    
 
 # 1002
-def train(self, summary, sbuf):
+def train(self:RMRXapp, summary, sbuf):
     '''Training Initiation func'''
     global EPOCHS
     print(f'Received Train Call : {summary}')
-    for (summary, sbuf) in self.rmr_get_messages():
-        self.logger.info(f'Received: {summary}')
-        jpay = json.loads(summary[rmr.RMR_MS_PAYLOAD])
-        if 'ACK' in jpay:
-            if (WEIGHTS is not None) and (BIAS is not None):
-                self.rmr_send(json.dumps({'weights':WEIGHTS,'bias':BIAS,'epochs': EPOCHS}).encode(), 2001)
-            else:
-                self.rmr_send(json.dumps({'epochs': EPOCHS}).encode(), 2001)
-            self.logger.info(f'Data sent Begining Training')
-            print(f'Data sent Begining Training')
-        self.rmr_free(sbuf)
+    
+    
+    jpay = json.loads(summary[rmr.RMR_MS_PAYLOAD])
+    if 'ACK' in jpay:
+        if (WEIGHTS is not None) and (BIAS is not None):
+            print('Weights are Initialized ')
+            self.rmr_rts(sbuf,new_payload=json.dumps({'weights':WEIGHTS,'bias':BIAS,'epochs': EPOCHS}).encode(),new_mtype=2001)
+            self.rmr_free(sbuf)
+        else:
+            print('Weights have been initialized')
+            self.rmr_rts(sbuf,new_payload=json.dumps({'epochs': EPOCHS}).encode(), new_mtype=2001)
+            self.rmr_free(sbuf)
+        self.logger.info(f'Payload Reutrned to Train')
+        print(f'Payload Reutrned to Train')
+        
+            
+            
 
 # 1003
 def predict(self, summary, sbuf):
@@ -105,8 +116,7 @@ def predict(self, summary, sbuf):
         weights = jpay['weights']
         bias = jpay['bias']
         # TODO: new_mtype
-        self.rmr_rts(sbuf, new_payload=json.dumps(
-            {'Value: ': (bias+X.dot(weights))}))
+        self.rmr_rts(sbuf, new_payload=json.dumps({'Value: ': (bias+X.dot(weights))}))
         self.rmr_free(sbuf)
 
 
