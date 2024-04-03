@@ -88,7 +88,7 @@ def train(self,summary,sbuf):
 # 2002
 def model_update():
     '''Updating Model'''
-    print('Please not here')
+    
 
 def validation_metric(self,summary,sbuf):
     '''valid func for generating model eval metrics'''
