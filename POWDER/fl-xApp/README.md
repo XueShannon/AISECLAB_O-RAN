@@ -27,9 +27,31 @@
     $ cd fl-xapp
     $ PYTHONUNBUFFERED=1 RMR_SEED_RT=./flapp-ue/test_route.rt python ./flapp-ue/fl_ue.py 
     ```
+  - Docker 
+    1. fl-ric
+    ``` 
+    $ cd flapp-ric
+    $ docker build -t flric:latest -f Dockerfile .
+    $ docker run --net=host flric:latest
+    ```
+    2. fl-ue
+    ``` 
+    $ cd flapp-ue
+    $ docker build -t flue:latest -f Dockerfile .
+    $ docker run --net=host flue:latest
+    ```
+
+# Outputs
+
+## Ric Script
+<img src = outputs\ricout.png>
+<img src = outputs\ricout1.png>
+
+## UE Script
+<img src = outputs\UEside.png>
 
  # In-progress
   - Currently the app works over a single system over localhost need to implement proper routing over n/w using E2-Interface
   - Implement proper SDL Layer and PUB-SUB
     - Currently app only uses RTS (Return to sender method) rather transmitting to nodes using Publication Subscription
- - implementation over actual network
+ - implementation over actual network (Resourse reservation requested for tuesday 4/9)
