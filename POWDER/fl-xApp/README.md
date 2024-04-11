@@ -50,6 +50,19 @@
 ## UE Script
 <img src = outputs\UEside.png>
 
+## POWDER Outputs
+
+<img src = outputs\XAPP-Onboard-1.png>
+
+## ERRORS
+
+### EPC
+<img src = outputs\EPC-outputs.png>
+
+### UE
+
+<img src = outputs\UE-AttachFail.png>
+
  # In-progress
   - Currently the app works over a single system over localhost need to implement proper routing over n/w using E2-Interface
   - Implement proper SDL Layer and PUB-SUB
