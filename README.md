@@ -5,6 +5,12 @@
   Goal: Complete a simple whole Federated Learning Process
 </p>
 </details>
+<details><summary>Final (End of May, 2024)</summary>
+<p>
+  1. data flow
+  2. realistic problem (thinking)
+</p>
+</details>
 
 ## Meeting
 - in-person (once a month)
