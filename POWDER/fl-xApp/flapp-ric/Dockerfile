@@ -12,6 +12,7 @@ ENV RMR_SEED_RT /opt/route/test_route_RIC.rt
 RUN apk update && apk add gcc musl-dev bash
 
 # Install
+RUN pip3 install pip --upgrade
 RUN pip install ricxappframe 
 RUN pip3 install setuptools
 RUN pip3 install wheel

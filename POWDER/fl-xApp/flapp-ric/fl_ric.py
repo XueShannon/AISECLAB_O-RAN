@@ -1,12 +1,11 @@
-from ricxappframe.xapp_frame import RMRXapp, rmr, Xapp
+from ricxappframe.xapp_frame import RMRXapp, rmr
+from ricxappframe.util.constants import Constants
 import numpy as np
 import json
 import os
-
-
-# PLAN is to use a Reactive Xapp (RMRXapp) rather than XApp since
-# it allows for different callbacks instead of a single infinite loop run
-
+os.environ['RMR_SEED_RT']='test_route.rt'
+# os.environ[Constants.CONFIG_PATH]='init/flapp-config.json'
+os.environ[Constants.CONFIG_FILE_ENV] = 'init/flapp-config.json'
 WEIGHTS = 0
 BIAS = 0
 EPOCHS = 10
@@ -28,9 +27,9 @@ def default_handler(self, summary, sbuf):
 
 # 1000 calls respond data to initializes data on UE
 def data_send(self,summary,sbuf):
-    global WEIGHTS,BIAS, EPOCHS, X, y
-    print(f'data_send called with \nsummary:{summary}')
-    data = {'X':X,'y':y,'weights':WEIGHTS,'bias':BIAS,'epochs':EPOCHS}
+    global WEIGHTS,BIAS, EPOCHS
+    print(f'Sending Current Model Weights \nsummary:{summary}')
+    data = {'weights':WEIGHTS,'bias':BIAS,'epochs':EPOCHS}
     self.rmr_rts(sbuf,json.dumps(data).encode(),2000)
     # self.rmr_free(sbuf)
     print(f'sent: {data} to ue')
@@ -60,5 +59,7 @@ xapp.register_callback(data_send, message_type=1000)
 # xapp.register_callback(train_ric, message_type=1001)
 xapp.register_callback(weight_avg, message_type=1001)
 # xapp.register_callback(predict, message_type=1003)
+xapp.registerXapp()
 xapp.run()
 # TODO: rmr route creation
+# docker.io/nexuseli18/aiseclab-flapp:flric
