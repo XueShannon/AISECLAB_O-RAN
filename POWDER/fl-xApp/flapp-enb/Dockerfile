@@ -7,6 +7,9 @@ RUN mkdir -p /opt/route/
 COPY test_route.rt /opt/route/test_route_UE.rt
 ENV LD_LIBRARY_PATH /usr/local/lib/:/usr/local/lib64
 ENV RMR_SEED_RT /opt/route/test_route_UE.rt
+RUN ip=$(hostname -i)
+ENV RMR_SRC_ID $ip
+
 # ENV CONFIG_FILE /opt/config/flapp-config.json
 
 # sdl needs gcc

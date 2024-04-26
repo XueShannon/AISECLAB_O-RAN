@@ -1,13 +1,13 @@
 {
-    "json_url": "ue-app-fl",
-    "xapp_name": "ue-app-fl",
+    "json_url": "enb-app-fl",
+    "xapp_name": "enb-app-fl",
     "version": "1.0.0",
     "containers": [
         {
-            "name": "ue-app-fl",
+            "name": "enb-app-fl",
             "image": {
-                "registry": "xApp-registry.local:5008",
-                "name": "ue-app-fl",
+                "registry": "localhost:5008",
+                "name": "enb-app-fl",
                 "tag": "1.0.0"
             },
             "resources": {
@@ -19,8 +19,14 @@
     "messaging": {
         "ports": [
             {
+                "name": "http",
+                "container": "enb-app-fl",
+                "port": 8080,
+                "description": "http service"
+            },
+            {
                 "name": "rmr-data",
-                "container": "ue-app-fl",
+                "container": "enb-app-fl",
                 "port": 4560,
                 "rxMessages": [
                     "RIC_SUB_RESP",
@@ -36,13 +42,13 @@
                 "policies": [
                     1
                 ],
-                "description": "rmr receive data port for ue-app-fl]"
+                "description": "rmr receive data port for enb-app-fl]"
             },
             {
                 "name": "rmr-route",
-                "container": "ue-app-fl",
+                "container": "enb-app-fl",
                 "port": 4561,
-                "description": "rmr route port for ue-app-fl"
+                "description": "rmr route port for enb-app-fl"
             }
         ]
     },

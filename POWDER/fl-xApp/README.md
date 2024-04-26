@@ -34,10 +34,10 @@
     $ docker build -t flric:latest -f Dockerfile .
     $ docker run --net=host flric:latest
     ```
-    2. fl-ue
+    2. fl-enb
     ``` 
     $ cd flapp-ue
-    $ docker build -t flue:latest -f Dockerfile .
+    $ docker build -t flenb:latest -f Dockerfile .
     $ docker run --net=host flue:latest
     ```
   
@@ -83,7 +83,11 @@
 <img src = outputs\ricout1.png>
 
 ## ENB Script
+**eNB 1**
 <img src = outputs\EPC-outputs.png>
+
+**eNB 2**
+<img src = outputs\EPC-outputs-1.png>
 
 ## POWDER Outputs
 

@@ -19,6 +19,13 @@
     "messaging": {
         "ports": [
             {
+                "name": "http",
+                "container": "ric-app-fl",
+                "port": 8080,
+                "description": "http service"
+            },
+            
+            {
                 "name": "rmr-data",
                 "container": "ric-app-fl",
                 "port": 4562,
