@@ -40,6 +40,41 @@
     $ docker build -t flue:latest -f Dockerfile .
     $ docker run --net=host flue:latest
     ```
+  
+### Powder xApp onboarding
+
+1. Create local docker registry to load image and tag image with local registry.
+    ```
+    $ docker run -d -p 5000:5000 --name registry registry:2.7
+
+    $ docker tag flric:latest localhost:5000/flric:latest
+    ```
+
+2. Push the image
+    ```
+    $ docker push localhost:5000/flric:latest
+    ```
+3. onboard xapp config files
+    ```
+    $ /local/setup/oran/dms_cli onboard \
+        /local/profile-public/ricapp-config.json \
+        /local/setup/oran/xapp-embedded-schema.json
+    ```
+
+4. Verify App onboarding
+    ```
+    $ /local/setup/oran/dms_cli get_charts_list
+    ```
+
+5. Deploy App
+    ```
+    $ /local/setup/oran/dms_cli install \
+        --xapp_chart_name=ric-app-fl --version=1.0.0 --namespace=ricxapp
+    ```
+6. View Outputs
+    ```
+    $ kubectl logs -f -n ricxapp -l app=ricxapp-ric-app-fl
+    ```
 
 # Outputs
 
@@ -47,21 +82,13 @@
 <img src = outputs\ricout.png>
 <img src = outputs\ricout1.png>
 
-## UE Script
-<img src = outputs\UEside.png>
+## ENB Script
+<img src = outputs\EPC-outputs.png>
 
 ## POWDER Outputs
 
 <img src = outputs\XAPP-Onboard-1.png>
 
-## ERRORS
-
-### EPC
-<img src = outputs\EPC-outputs.png>
-
-### UE
-
-<img src = outputs\UE-AttachFail.png>
 
  # In-progress
   - Currently the app works over a single system over localhost need to implement proper routing over n/w using E2-Interface
