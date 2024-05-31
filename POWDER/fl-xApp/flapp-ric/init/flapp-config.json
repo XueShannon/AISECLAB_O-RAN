@@ -7,8 +7,8 @@
             "name": "ric-app-fl",
             "image": {
                 "registry": "localhost:5008",
-                "name": "ric-app-fl",
-                "tag": "1.0.0"
+                "name": "flric",
+                "tag": "latest"
             },
             "resources": {
                 "limits": {},
