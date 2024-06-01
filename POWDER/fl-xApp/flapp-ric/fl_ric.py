@@ -90,31 +90,6 @@ def weight_avg(self:RMRXapp, summary, sbuf):
     global WEIGHTS, EPOCHS, MODEL,WEIGHTARRAY, sdl
     
     print(f'Received New Weights\nEpochs Remaining: {EPOCHS}')
-    # jpay = json.loads(summary[rmr.RMR_MS_PAYLOAD])
-    # EPOCHS -= 1
-    # # loads in individual weights and adds to weightsarray
-    # _WEIGHTS = jpay['weights']
-    # _WEIGHTS = [np.array(i) for i in _WEIGHTS]
-    # WEIGHTARRAY.append(_WEIGHTS)
-    
-    # # upon receiveing 'n' number of weights in array(2 here) averages the weights
-    # # and sends back weights and epochs remaining to eNBs
-    # if len(WEIGHTARRAY)==2:
-    #     WEIGHTS=[np.mean([arr1, arr2], axis=0) for arr1, arr2 in zip(WEIGHTARRAY[0], WEIGHTARRAY[1])]
-    #     MODEL.set_weights(WEIGHTS)
-    #     WEIGHTARRAY=[]
-    #     WEIGHTS = [i.tolist() for i in WEIGHTS]
-    #     print(EPOCHS)
-    #     if EPOCHS != 0:
-    #         print(f'Epoch {EPOCHS}')
-    #         self.rmr_send(json.dumps({'epochs': EPOCHS, 'weights':WEIGHTS}).encode(), 2001)
-    #     else:
-    #         try:
-    #             print(f'Training Complete\nFinal Weights:\n{WEIGHTS}')
-    #             MODEL.save('model.keras')
-    #         except Exception as e:
-    #             print(e)
-    
     jpay = json.loads(summary[rmr.RMR_MS_PAYLOAD])
     EPOCHS -= 1
     # loads in individual weights and adds to weightsarray
@@ -125,6 +100,7 @@ def weight_avg(self:RMRXapp, summary, sbuf):
         WEIGHTS = np.mean(WEIGHTARRAY, axis=0)
         WEIGHTS = [i.tolist() for i in WEIGHTS]
         self.sdl.set(my_ns, 'weights', WEIGHTS)
+        WEIGHTARRAY.clear()
 
 
 # xapp initiation
