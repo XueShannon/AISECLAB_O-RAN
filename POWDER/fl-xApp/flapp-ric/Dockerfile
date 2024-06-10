@@ -6,7 +6,7 @@ COPY --from=nexus3.o-ran-sc.org:10002/o-ran-sc/bldr-alpine3-rmr:4.6.0 /usr/local
 RUN mkdir -p /opt/route/
 COPY test_route.rt /opt/route/test_route_RIC.rt
 COPY init/flapp-config.json /opt/config/flapp-config.json
-ENV LD_LIBRARY_PATH /usr/local/lib/:/usr/local/lib64
+ENV LD_LIBRARY_PATH /usr/local/lib/:/usr/local/lib64:/lib
 ENV RMR_SEED_RT /opt/route/test_route_RIC.rt
 RUN ip=$(hostname -i)
 ENV RMR_SRC_ID $ip
@@ -14,6 +14,9 @@ ENV RMR_SRC_ID $ip
 
 # sdl needs gcc
 RUN apt update -y && apt install -y gcc musl-dev bash
+
+# newer version has different name for musl file
+RUN mv /lib/ld-musl-x86_64.so.1 /lib/libc.musl-x86_64.so.1
 
 # Install
 RUN pip3 install pip --upgrade
