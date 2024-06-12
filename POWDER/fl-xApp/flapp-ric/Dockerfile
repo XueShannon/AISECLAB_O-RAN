@@ -15,8 +15,8 @@ ENV RMR_SRC_ID $ip
 # sdl needs gcc
 RUN apt update -y && apt install -y gcc musl-dev bash
 
-# newer version has different name for musl file
-RUN mv /lib/ld-musl-x86_64.so.1 /lib/libc.musl-x86_64.so.1
+# newer version has different name for musl link file
+RUN ln -s /usr/lib/x86_64-linux-musl/libc.so /lib/libc.musl-x86_64.so.1
 
 # Install
 RUN pip3 install pip --upgrade
