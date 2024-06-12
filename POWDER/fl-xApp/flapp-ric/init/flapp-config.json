@@ -6,7 +6,7 @@
         {
             "name": "ric-app-fl",
             "image": {
-                "registry": "localhost:5008",
+                "registry": "127.0.0.1:5008",
                 "name": "flric",
                 "tag": "latest"
             },

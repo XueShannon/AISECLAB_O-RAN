@@ -17,22 +17,28 @@ model = None
 
 def load_data():
     '''Loads data from csibins'''
-    path = 'Dataset/x-310-3/nuc3/train/'
-    x3_mag = np.fromfile(f'Dataset/x-310-3/nuc3/train/nuc3_mag.bin', dtype=np.float32)
-    x3_phase = np.fromfile(f'Dataset/x-310-3/nuc3/train/nuc3_phase.bin', dtype=np.float32)
+    x3_mag = np.fromfile(f'x-310-3/nuc3/train/nuc3_mag.bin', dtype=np.float32)
+    x3_phase = np.fromfile(f'x-310-3/nuc3/train/nuc3_phase.bin', dtype=np.float32)
 
-    x4_mag = np.fromfile(f'Dataset/x-310-3/nuc4/train/nuc4_mag.bin', dtype=np.float32)
-    x4_phase = np.fromfile(f'Dataset/x-310-3/nuc4/train/nuc4_phase.bin', dtype=np.float32)
+    x4_mag = np.fromfile(f'x-310-3/nuc4/train/nuc4_mag.bin', dtype=np.float32)
+    x4_phase = np.fromfile(f'x-310-3/nuc4/train/nuc4_phase.bin', dtype=np.float32)
 
     slice_size_3 = len(x3_mag)%52
     slice_size_4 = len(x4_mag)%52
 
     if slice_size_3 != 0:
-        x3_mag = x3_mag[:-slice_size_3]
-        x3_phase = x3_phase[:-slice_size_3]
+        x3_mag = x3_mag[:-slice_size_3].reshape(-1,52,1)
+        x3_phase = x3_phase[:-slice_size_3].reshape(-1,52,1)
+    else:
+        x3_mag = x3_mag.reshape(-1,52,-1)
+        x3_phase = x3_phase.reshape(-1,52,-1)
     if slice_size_4 != 0:
-        x4_mag = x4_mag[:-slice_size_4]
-        x4_phase = x4_phase[:-slice_size_4]
+        x4_mag = x4_mag[:-slice_size_4].reshape(-1,52,1)
+        x4_phase = x4_phase[:-slice_size_4].reshape(-1,52,1)
+    else:
+        x4_mag = x4_mag.reshape(-1,52,-1)
+        x4_phase = x4_phase.reshape(-1,52,-1)
+    
     _X_mag = np.concatenate((x3_mag, x4_mag))
     _X_phase = np.concatenate((x3_phase, x4_phase))
     _y = np.concatenate((np.zeros(len(x3_mag)), np.ones(len(x4_mag))))
@@ -53,14 +59,13 @@ def post_init(self: RMRXapp):
     global epochs, model, meid, weights
     print(f'eNB Post Init: {self.healthcheck()}\neNBs Connected')
     payload = json.dumps({'REQ': 'Model'}).encode()
-    if model:
-        sbuf = rmr.rmr_alloc_msg(vctx=self._mrc, size=len(payload),payload=payload,
-                                gen_transaction_id=True, meid=meid, mtype=1000)
-        for _ in range(100):
-            sbuf = rmr.rmr_send_msg(self._mrc, sbuf)
-            if sbuf.contents.state == 0:
-                self.rmr_free(sbuf)
-                break
+    sbuf = rmr.rmr_alloc_msg(vctx=self._mrc, size=len(payload),payload=payload,
+                            gen_transaction_id=True, meid=meid, mtype=1000)
+    for _ in range(100):
+        sbuf = rmr.rmr_send_msg(self._mrc, sbuf)
+        if sbuf.contents.state == 0:
+            self.rmr_free(sbuf)
+            break
 
 
 def default_handler(self, summary, sbuf):
@@ -71,11 +76,11 @@ def default_handler(self, summary, sbuf):
 def get_model(self, summary, sbuf):
     '''Loading in the aggregatted weights received for RIC and continues training'''
     global weights, epochs, model
-    print(f'Weights Received\n{summary[rmr.RMR_MS_PAYLOAD]}\n Begin Training')
-
+    print(f'Model/Weights Received')
     jpay = json.loads(summary[rmr.RMR_MS_PAYLOAD])
     _model = jpay['model']
     model = tf.keras.utils.deserialize_keras_object(_model)
+    model.summary()
     weights = jpay['weights']
     if weights != 0:
         weights = [np.array(i) for i in weights]
@@ -92,7 +97,6 @@ def train_enb(self, summary, sbuf):
     print(f'train initiate for eNB\n payload: {summary.keys()}')
     jpay = json.loads(summary[rmr.RMR_MS_PAYLOAD])
     weights = jpay['weights']
-    
     if epochs > 0:
         if weights != 0:
             weights = [np.array(i) for i in weights]
@@ -100,6 +104,8 @@ def train_enb(self, summary, sbuf):
         print(f'Epochs Remaining: {epochs}\nTraining Model\n')
         epochs -= 1
         train(self)
+    else:
+        model.save('rf_model.keras')
 
 def train(xapp: RMRXapp):
     '''trains model on remaining epochs and sends weights back to ric for averaging'''

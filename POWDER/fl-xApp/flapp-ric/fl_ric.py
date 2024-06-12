@@ -57,8 +57,10 @@ def post_init(self: RMRXapp):
     self.sdl.set(my_ns, 'epochs', EPOCHS)
     self.sdl.set(my_ns, 'weights', WEIGHTS)
     self.logger.info(f'Model Posted to SDL')
+    # payload = json.dumps({'PING': 'PONG'}).encode()
+    # self.rmr_send(payload, 2000)
     print(f'Model Posted to SDL')
-    model.summary()
+    
 
 
 def default_handler(self: RMRXapp, summary, sbuf):
@@ -70,19 +72,23 @@ def model_set(self:RMRXapp, summary, sbuf):
     '''This Function Receives Acknowledgement from eNBs and intializes training on eNBs'''
     global WEIGHTS, EPOCHS, serialized_model, meid
     print(f'Model Set Called\n received from eNBs\n{summary[rmr.RMR_MS_PAYLOAD]}')
+    print('Model:\n')
+    model.summary()
     jpay = json.loads(summary[rmr.RMR_MS_PAYLOAD])
 
     meid.add(summary[rmr.RMR_MS_MEID])
-
+    print(f'Connected enbs : {meid}')
     if 'REQ' in jpay:
+        print('Sending Model to eNBs')
         payload = json.dumps({'model': serialized_model, 'epochs': EPOCHS, 'weights': WEIGHTS}).encode()
         sbuf = rmr.rmr_alloc_msg(vctx=self._mrc, size=len(payload), payload=payload,
-                                 gen_transaction_id=True, meid=meid, mtype=2000)
+                                 gen_transaction_id=True, meid=b'RIC01', mtype=2000)
         for _ in range(100):
             sbuf = rmr.rmr_send_msg(self._mrc, sbuf)
             if sbuf.contents.state == 0:
                 self.rmr_free(sbuf)
                 break
+        print('Model Sent to eNBs')
         
 
 def weight_avg(self:RMRXapp, summary, sbuf):
@@ -95,20 +101,25 @@ def weight_avg(self:RMRXapp, summary, sbuf):
     if EPOCHS > 0:
         # loads in individual weights and adds to weightsarray
         _WEIGHTS = jpay['weights']
-        _WEIGHTS = [np.array(i) for i in _WEIGHTS]
+        # _WEIGHTS = [np.array(i) for i in _WEIGHTS]
         WEIGHTARRAY.append(_WEIGHTS)
-        if len(meid)==len(WEIGHTARRAY):
+        Avg_weights =[]
+        Avg_layer = []
+        if (len(meid)==len(WEIGHTARRAY)):
+            print('Aggregating Weights')
             EPOCHS -= 1
-            WEIGHTS = np.mean(WEIGHTARRAY, axis=0)
-            WEIGHTS = [i.tolist() for i in WEIGHTS]
-            self.sdl.set(my_ns, 'weights', WEIGHTS)
-            WEIGHTARRAY.clear()
+            for i in range(len(WEIGHTARRAY[0])):
+                for j in range(len(WEIGHTARRAY)):
+                    Avg_layer.append(WEIGHTARRAY[j][i])
+                Avg_weights.append(np.mean(Avg_layer, axis=0))
+                Avg_layer = []
             print(f'Epochs Remaining: {EPOCHS}\nWeights Aggregated\n')
+    WEIGHTS = [i.tolist() for i in Avg_weights]
     self.sdl.set(my_ns, 'epochs', EPOCHS)
     self.sdl.set(my_ns, 'weights', WEIGHTS)
     payload = json.dumps({'weights': WEIGHTS, 'epochs': EPOCHS}).encode()
     sbuf = rmr.rmr_alloc_msg(vctx=self._mrc, size=len(payload), payload=payload,
-                             gen_transaction_id=True, meid=meid, mtype=2001)
+                             gen_transaction_id=True, meid=b'RIC1', mtype=2001)
     for _ in range(100):
         sbuf = rmr.rmr_send_msg(self._mrc, sbuf)
         if sbuf.contents.state == 0:
