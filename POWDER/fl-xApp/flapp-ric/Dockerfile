@@ -10,7 +10,7 @@ ENV LD_LIBRARY_PATH /usr/local/lib/:/usr/local/lib64:/lib
 ENV RMR_SEED_RT /opt/route/test_route_RIC.rt
 RUN ip=$(hostname -i)
 ENV RMR_SRC_ID $ip
-# ENV CONFIG_FILE /opt/config/flapp-config.json
+ENV CONFIG_FILE /opt/config/flapp-config.json
 
 # sdl needs gcc
 RUN apt update -y && apt install -y gcc musl-dev bash

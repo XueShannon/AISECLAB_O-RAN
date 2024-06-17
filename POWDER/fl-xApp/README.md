@@ -45,19 +45,19 @@
 
 1. Create local docker registry to load image and tag image with local registry.
     ```
-    $ docker run -d -p 5000:5000 --name registry registry:2.7
+    $ docker run -d -p 5008:5000 --name registry registry:2.7
 
-    $ docker tag flric:latest localhost:5000/flric:latest
+    $ docker tag flric:latest localhost:5008/flric:latest
     ```
 
 2. Push the image
     ```
-    $ docker push localhost:5000/flric:latest
+    $ docker push localhost:5008/flric:latest
     ```
 3. onboard xapp config files
     ```
     $ /local/setup/oran/dms_cli onboard \
-        /local/profile-public/ricapp-config.json \
+        init/flapp-config.json \
         /local/setup/oran/xapp-embedded-schema.json
     ```
 

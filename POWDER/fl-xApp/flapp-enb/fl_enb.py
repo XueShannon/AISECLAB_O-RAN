@@ -1,6 +1,7 @@
 import time
 import json
 import numpy as np
+import pandas as pd
 from ricxappframe.xapp_frame import RMRXapp, rmr
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -12,16 +13,17 @@ meid = bytes(meid, 'utf-8')
 # Setting Params
 weights = 0
 epochs = 0
+_epochs = 0
 my_ns = 'flapp'
 model = None
 
 def load_data():
     '''Loads data from csibins'''
-    x3_mag = np.fromfile(f'x-310-3/nuc3/train/nuc3_mag.bin', dtype=np.float32)
-    x3_phase = np.fromfile(f'x-310-3/nuc3/train/nuc3_phase.bin', dtype=np.float32)
+    x3_mag = np.fromfile(f'csibins/mins/nuc3-2min/csibins/wifi_mag.bin', dtype=np.float32)
+    x3_phase = np.fromfile(f'csibins/mins/nuc3-2min/csibins/wifi_phase.bin', dtype=np.float32)
 
-    x4_mag = np.fromfile(f'x-310-3/nuc4/train/nuc4_mag.bin', dtype=np.float32)
-    x4_phase = np.fromfile(f'x-310-3/nuc4/train/nuc4_phase.bin', dtype=np.float32)
+    x4_mag = np.fromfile(f'csibins/mins/nuc4-2min/csibins/wifi_mag.bin', dtype=np.float32)
+    x4_phase = np.fromfile(f'csibins/mins/nuc4-2min/csibins/wifi_phase.bin', dtype=np.float32)
 
     slice_size_3 = len(x3_mag)%52
     slice_size_4 = len(x4_mag)%52
@@ -30,14 +32,14 @@ def load_data():
         x3_mag = x3_mag[:-slice_size_3].reshape(-1,52,1)
         x3_phase = x3_phase[:-slice_size_3].reshape(-1,52,1)
     else:
-        x3_mag = x3_mag.reshape(-1,52,-1)
-        x3_phase = x3_phase.reshape(-1,52,-1)
+        x3_mag = x3_mag.reshape(-1,52,1)
+        x3_phase = x3_phase.reshape(-1,52,1)
     if slice_size_4 != 0:
         x4_mag = x4_mag[:-slice_size_4].reshape(-1,52,1)
         x4_phase = x4_phase[:-slice_size_4].reshape(-1,52,1)
     else:
-        x4_mag = x4_mag.reshape(-1,52,-1)
-        x4_phase = x4_phase.reshape(-1,52,-1)
+        x4_mag = x4_mag.reshape(-1,52,1)
+        x4_phase = x4_phase.reshape(-1,52,1)
     
     _X_mag = np.concatenate((x3_mag, x4_mag))
     _X_phase = np.concatenate((x3_phase, x4_phase))
@@ -78,6 +80,8 @@ def get_model(self, summary, sbuf):
     global weights, epochs, model
     print(f'Model/Weights Received')
     jpay = json.loads(summary[rmr.RMR_MS_PAYLOAD])
+    epochs = jpay['epochs']
+    _epochs = epochs
     _model = jpay['model']
     model = tf.keras.utils.deserialize_keras_object(_model)
     model.summary()
@@ -85,9 +89,7 @@ def get_model(self, summary, sbuf):
     if weights != 0:
         weights = [np.array(i) for i in weights]
         model.set_weights(weights)
-    epochs = jpay['epochs']
-    print(f'Epochs Remaining: {epochs}\nTraining Model\n')
-    train(self)
+    # print(f'Epochs Remaining: {epochs}\nTraining Model\n')
     
 
 
@@ -102,15 +104,17 @@ def train_enb(self, summary, sbuf):
             weights = [np.array(i) for i in weights]
             model.set_weights(weights)
         print(f'Epochs Remaining: {epochs}\nTraining Model\n')
-        epochs -= 1
         train(self)
-    else:
-        model.save('rf_model.keras')
+        
+        
 
 def train(xapp: RMRXapp):
     '''trains model on remaining epochs and sends weights back to ric for averaging'''
-    global weights, model, X_mag, X_phase, y, epochs, meid
-    model.fit([X_mag,X_phase], y, batch_size=32, epochs=1, validation_split=0.2)
+    global weights, model, X_mag, X_phase, y, epochs, meid, _epochs
+    hist = model.fit([X_mag[(_epochs-epochs)*520:(_epochs-epochs+1)*520],X_phase], y, batch_size=32, epochs=1, validation_split=0.2)
+    epochs -= 1
+    stat_df = pd.DataFrame(hist.history)
+    stat_df.to_csv('stat.csv', mode='a', header=False)
     weights = model.get_weights()
     weights = [i.tolist() for i in weights]
     payload = json.dumps({'weights': weights}).encode()
@@ -121,6 +125,7 @@ def train(xapp: RMRXapp):
         if sbuf.contents.state == 0:
             xapp.rmr_free(sbuf)
             break
+    model.save('rf_model.keras')
     
 
 
@@ -129,5 +134,7 @@ xapp = RMRXapp(default_handler=default_handler,
                post_init=post_init, use_fake_sdl=True, rmr_port=4561)
 xapp.register_callback(get_model, 2000)
 xapp.register_callback(train_enb, 2001)
-# xapp.register_callback(model_update,2002)
+
+
 xapp.run()
+
