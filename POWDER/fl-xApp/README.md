@@ -75,8 +75,26 @@
     ```
     $ kubectl logs -f -n ricxapp -l app=ricxapp-ric-app-fl
     ```
+7. Restarting xAPP
+    ```
+    $ kubectl -n ricxapp rollout restart deployment ricxapp-ric-app-fl
+    ```
+
+8. Unloading xAPP for any new image updates
+    ```
+    /local/setup/oran/dms_cli uninstall \
+        --xapp_chart_name=ric-app-fl --version=1.0.0 --namespace=ricxapp
+    ```
+9. Unloading xAPP descriptor for image updates
+    ```
+    curl -X DELETE http://10.10.1.1:8878/charts/api/charts/ric-app-fl/1.0.0
+    ```
 
 # Outputs
+
+## POWDER Outputs
+**xAPP Charts List**
+<img src = outputs\XAPP-Onboard-1.png>
 
 ## Ric Script
 <img src = outputs\ricout.png>
@@ -84,14 +102,20 @@
 
 ## ENB Script
 **eNB 1**
-<img src = outputs\EPC-outputs.png>
+<img src = outputs\enbout.png>
+<img src = outputs\enbout1.png>
+<img src = outputs\enbout2.png>
 
 **eNB 2**
-<img src = outputs\EPC-outputs-1.png>
+<img src = outputs\enb2out.png>
+<img src = outputs\enb2out2.png>
 
-## POWDER Outputs
+## Single Node Learning result
+<img src=outputs\single_node.png>
 
-<img src = outputs\XAPP-Onboard-1.png>
+## Federated Learning Results 
+<img src = outputs\fed_results.png>
+
 
 
  # In-progress

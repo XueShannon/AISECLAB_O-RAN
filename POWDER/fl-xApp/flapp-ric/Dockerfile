@@ -8,8 +8,6 @@ COPY test_route.rt /opt/route/test_route_RIC.rt
 COPY init/flapp-config.json /opt/config/flapp-config.json
 ENV LD_LIBRARY_PATH /usr/local/lib/:/usr/local/lib64:/lib
 ENV RMR_SEED_RT /opt/route/test_route_RIC.rt
-RUN ip=$(hostname -i)
-ENV RMR_SRC_ID $ip
 ENV CONFIG_FILE /opt/config/flapp-config.json
 
 # sdl needs gcc
@@ -25,7 +23,7 @@ RUN pip install ricxappframe
 RUN pip3 install setuptools
 RUN pip3 install wheel
 RUN pip3 install numpy 
-# RUN pip3 install scikit-learn 
+
 COPY fl_ric.py .
 
 # Run

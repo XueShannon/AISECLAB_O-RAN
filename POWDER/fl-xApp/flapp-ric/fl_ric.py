@@ -8,13 +8,14 @@ from tensorflow.keras.layers import Input, Conv1D, Flatten, Dense, Concatenate
 from tensorflow.keras.models import Model
 from ricxappframe.xapp_frame import RMRXapp, rmr
 from ricxappframe.util.constants import Constants
+import time
 
 WEIGHTS = 0 # Placeholder for weights
 EPOCHS = 5  # Placeholder for epochs
 my_ns = 'flapp'
 
 
-# Model Setup
+'''Model Architecture'''
 # Define input layers
 input1 = Input(shape=(52,1), name='magnitude')
 input2 = Input(shape=(52,1), name='phase')
@@ -22,31 +23,25 @@ input2 = Input(shape=(52,1), name='phase')
 # Conv1D processing for Magnitude
 x1 = Conv1D(filters=16, kernel_size=3, activation='relu', name='magitude_conv')(input1)
 x1 = Flatten()(x1)
-
 # Conv1D processing for Phase
 x2 = Conv1D(filters=16, kernel_size=3, activation='relu', name='phase_conv')(input2)
 x2 = Flatten()(x2)
-
 # Concatenate the processed inputs
 concatenated = Concatenate()([x1, x2])
-
 # Add dense layers for classification
 x = Dense(32, activation='relu')(concatenated)
 output = Dense(1, activation='sigmoid')(x)
-
 # Create the model
 model = Model(inputs=[input1, input2], outputs=output, name='rf_fingerprinting')
-
 # Compile the model
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-
 # serializes model to dictionary object for transmitting
 serialized_model = tf.keras.utils.serialize_keras_object(model) 
 
-# Holds the Communicating MEIDs of Base Stations
+'''Communicating MEIDs'''
 meid = set() 
 
-#  Holds the weights from all enbs
+'''Weights from MEIDs'''
 WEIGHTARRAY=[]  
 
 
@@ -84,21 +79,19 @@ def model_set(self:RMRXapp, summary, sbuf):
     if 'REQ' in jpay:
         print('Sending Model to eNBs')
         payload = json.dumps({'model': serialized_model, 'epochs': EPOCHS, 'weights': WEIGHTS}).encode()
-        # sbuf = rmr.rmr_alloc_msg(vctx=self._mrc, size=len(payload), payload=payload,
-        #                          gen_transaction_id=True, meid=b'RIC01', mtype=2000)
-        # for _ in range(100):
-        #     sbuf = rmr.rmr_send_msg(self._mrc, sbuf)
-        #     if sbuf.contents.state == 0:
-        #         self.rmr_free(sbuf)
-        #         break
-        self.rmr_rts(sbuf, payload, 2000)
-        self.rmr_free(sbuf)
-        # for _ in range(100):
-        #     sbuf = rmr.rmr_rts_msg(self._mrc, sbuf, payload, 2000)
-        #     if sbuf.contents.state == 0:
-        #         self.rmr_free(sbuf)
-        #         break
+        self.rmr_rts(sbuf, payload,2000)
         print('Model Sent to eNBs')
+    if len(meid)>1:
+        print('Training Started')
+        payload_2 = json.dumps({'weights': WEIGHTS, 'epochs': EPOCHS}).encode()
+        time.sleep(2)
+        x=self.rmr_send(payload_2, 2001)
+        print(x)
+        time.sleep(2)
+        y=self.rmr_send(payload_2, 3001)
+        print(y)
+        time.sleep(1)
+
     
 
 def weight_avg(self:RMRXapp, summary, sbuf):
@@ -109,15 +102,14 @@ def weight_avg(self:RMRXapp, summary, sbuf):
     print(f'Received New Weights from {summary[rmr.RMR_MS_MEID]}\nEpochs Remaining: {EPOCHS}')
     jpay = json.loads(summary[rmr.RMR_MS_PAYLOAD])
     if EPOCHS > 0:
-        # print(f'Epochs True')
         # loads in individual weights and adds to weightsarray
         _WEIGHTS = jpay['weights']
         _WEIGHTS = [np.array(i) for i in _WEIGHTS]
         WEIGHTARRAY.append(_WEIGHTS)
         Avg_weights =[]
         Avg_layer = []
-        # if (len(meid)==len(WEIGHTARRAY)) and (len(meid)>1):
-        if (len(meid)==len(WEIGHTARRAY)):
+        if (len(meid)==len(WEIGHTARRAY)) and (len(meid)>1):
+        # if (len(meid)==len(WEIGHTARRAY)):
             print('Aggregating Weights')
             EPOCHS -= 1
             for i in range(len(WEIGHTARRAY[0])):
@@ -130,17 +122,16 @@ def weight_avg(self:RMRXapp, summary, sbuf):
             self.sdl.set(my_ns, 'E', EPOCHS)
             self.sdl.set(my_ns, 'W', WEIGHTS)
             payload = json.dumps({'weights': WEIGHTS, 'epochs': EPOCHS}).encode()
-            sbuf = rmr.rmr_alloc_msg(vctx=self._mrc, size=len(payload), payload=payload,
-                                    gen_transaction_id=True, meid=b'RIC1', mtype=2001)
-            for _ in range(100):
-                sbuf = rmr.rmr_send_msg(self._mrc, sbuf)
-                if sbuf.contents.state == 0:
-                    self.rmr_free(sbuf)
-                    break
-            # self.rmr_send(payload, 2001)
+            self.rmr_send(payload, 2001)
+            self.rmr_send(payload, 3001)
             WEIGHTARRAY=[]
-    if EPOCHS == 0:
-        print('Training Complete')
+        if EPOCHS == 0:
+            payload = json.dumps({'weights': WEIGHTS}).encode()
+            self.rmr_send(payload, 2001)
+            time.sleep(2)
+            self.rmr_send(payload, 3001)
+            self.sdl.set(my_ns, 'W', WEIGHTS)
+            print('Training Complete. Model saved to SDL')
 
 # xapp initiation
 xapp = RMRXapp(default_handler=default_handler,
