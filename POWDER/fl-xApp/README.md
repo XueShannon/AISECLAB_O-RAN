@@ -1,18 +1,18 @@
 # xAPP
 
-### the architecture currently consists of two apps fl-ric and fl-ue, currently written to work on stochastic gradient descent but training can be more generalized and with DL-Frameworks (Tensorflow, PyTorch)
+### the architecture currently consists of two apps fl-ric and fl-eNB, currently written to work on stochastic gradient descent but training can be more generalized and with DL-Frameworks (Tensorflow, PyTorch)
 
 ## fl-ric
- - This is the xAPP on RIC which intializes PARAMS and sends DATA/DATA source to UE
- - Upon data request transmits data and calls consecutive training callbacks on UE script
- - Upon receiving weights averages them and sends to UEs to update model and train further if required (Epochs not completed)
- - allows for UEs to join in at anytime in training and shares current weights and other Params with UEs
- - allows for predict method for UE's to only get results of current model
+ - This is the xAPP on RIC which intializes PARAMS and sends Model and weights source to eNB
+ - Upon model request transmits model and calls consecutive training callbacks on eNB script
+ - Upon receiving weights averages them and sends to eNBs to update model and train further if required (Epochs not completed)
+ - allows for eNBs to join in at anytime in training and shares current weights and other Params with enBs
 
 
-## fl-ue
- - This is xAPP which Communicates with RIC and is situated on UE
- - upon initilizing requests DATA and other params to train on.
+
+## fl-enb
+ - This is xAPP which Communicates with RIC and is situated on eNB
+ - upon initilizing requests Model and other params to train on.
  - while epochs not completed will train and share weights with RIC to aggregate
 
  ## Execution
@@ -22,10 +22,10 @@
     $ cd fl-xapp
     $ PYTHONUNBUFFERED=1 RMR_SEED_RT=./flapp-ric/test_route.rt python ./flapp-ric/fl_ric.py 
     ```
-    2. fl-ue execution 
+    2. fl-eNB execution 
     ```
     $ cd fl-xapp
-    $ PYTHONUNBUFFERED=1 RMR_SEED_RT=./flapp-ue/test_route.rt python ./flapp-ue/fl_ue.py 
+    $ PYTHONUNBUFFERED=1 RMR_SEED_RT=./flapp-enb/test_route.rt python ./flapp-enb/fl_enb.py 
     ```
   - Docker 
     1. fl-ric
@@ -36,9 +36,9 @@
     ```
     2. fl-enb
     ``` 
-    $ cd flapp-ue
+    $ cd flapp-enb
     $ docker build -t flenb:latest -f Dockerfile .
-    $ docker run --net=host flue:latest
+    $ docker run --net=host flenb:latest
     ```
   
 ### Powder xApp onboarding
@@ -119,7 +119,7 @@
 
 
  # In-progress
-  - Currently the app works over a single system over localhost need to implement proper routing over n/w using E2-Interface
-  - Implement proper SDL Layer and PUB-SUB
-    - Currently app only uses RTS (Return to sender method) rather transmitting to nodes using Publication Subscription
- - implementation over actual network (Resourse reservation requested for tuesday 4/9)
+  ~~- Currently the app works over a single system over localhost need to implement proper routing over n/w using E2-Interface~~
+  ~~- Implement proper SDL Layer and PUB-SUB~~
+    ~~- Currently app only uses RTS (Return to sender method) rather transmitting to nodes using Publication Subscription~~
+ ~~- implementation over actual network (Resourse reservation requested for tuesday 4/9)~~
