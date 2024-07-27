@@ -51,3 +51,23 @@ Reference: [Understanding O-RAN: Architecture, Interfaces, Algorithms, Security,
 ### Open Source Protocol Stacks
 - [srsRAN](https://www.srslte.com/srsran-project-update)
 - [OpenAirInterface](https://openairinterface.org/news/o-ran-alliance-and-openairinterface-software-alliance-expand-cooperation-on-developing-open-software-for-the-ran/)
+
+## Results
+
+### Selected Features for Fingerprinting
+
+**Phase Pattern at Base-Station**
+<img src='POWDER\Profile-Screens\Phase_compare.png'>
+
+**Magnitude Pattern at Base-Station**
+<img src='POWDER\Profile-Screens\mag_compare.png'>
+
+## Deep Learning Model
+<img src='POWDER\Profile-Screens\DLModel.png'>
+
+### Model Results
+<img src='POWDER\fl-xApp\outputs\single_node.png'>
+
+### xAPP Results
+<img src='POWDER\fl-xApp\outputs\training_metric.png'>
+
