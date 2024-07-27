@@ -57,7 +57,7 @@ Reference: [Understanding O-RAN: Architecture, Interfaces, Algorithms, Security,
 ### Selected Features for Fingerprinting
 
 **Phase Pattern at Base-Station**
-<img src='POWDER\Profile-Screens\Phase_compare.png'>
+<img src='POWDER\Profile-Screens\phase_compare.png'>
 
 **Magnitude Pattern at Base-Station**
 <img src='POWDER\Profile-Screens\mag_compare.png'>
